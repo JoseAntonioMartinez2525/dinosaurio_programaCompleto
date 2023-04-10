@@ -9,7 +9,15 @@ let eggImg;
 let exeggutor;
 let birdImg;
 let bird;
+// Declarar variable para llevar el puntaje
 let score = 0;
+
+// Declarar variable para llevar las vidas
+let lives = 3;
+
+// Declarar arreglo para almacenar los enemigos
+let enemies = [];
+let gameOver = false;
 
 const SPACE_KEY = 32;
 
@@ -27,8 +35,21 @@ function setup(){
     bg1 = new Bg(bgImg, 0);
     bg2 = new Bg(bgImg, width);
     rapidash = new Rapidash(rapidashImg);
+
     exeggutor = new Exeggutor(eggImg);
     bird = new Bird(random(width), random(height), birdImg);
+
+// Crear enemigos y agregarlos al arreglo
+for (let i = 0; i < 3; i++) {
+    let enemy = new Exeggutor(eggImg);
+    enemies.push(enemy);
+  }
+
+  for (let i = 0; i < 2; i++) {
+    let enemy = new Bird(random(width), random(height), birdImg);
+    enemies.push(enemy);
+  }
+    
 }
 
 function draw(){
@@ -45,13 +66,50 @@ function draw(){
     exeggutor.update();
     bird.update();
 
-    checkCollision(rapidash, bird); // Verificar colisión con ave
-    checkCollision(rapidash, exeggutor); // Verificar colisión con planta
 
-    textSize(32);
-    fill(255);
-    text("Score: " + score, 10, 30);
-    
+// Verificar colisión con enemigos
+for (let i = 0; i < enemies.length; i++) {
+    if (rapidash.isCollidingWith(enemies[i])) {
+      // Restar puntos y eliminar enemigo en caso de colisión
+      score -= 10;
+      enemies.splice(i, 1);
+      // Restar una vida al jugador en caso de quedarse sin puntos
+      if (score < 0) {
+        lives--;
+        // Reiniciar el puntaje a 0
+        score = 0;
+        // Si el jugador se queda sin vidas, mostrar Game Over
+        if (lives === 0) {
+          gameOver = true;
+        }
+      }
+      // Salir del ciclo for, ya que solo se permite una colisión por frame
+      break;
+    }
+  }
+
+  // Generar nuevos enemigos de forma aleatoria
+  if (frameCount % 60 === 0) {
+    const enemyType = random(['bird', 'exeggutor']);
+    if (enemyType === 'bird') {
+      enemies.push(new Bird(random(width), random(height), birdImg));
+    } else if (enemyType === 'exeggutor') {
+      enemies.push(new Exeggutor(eggImg));
+    }
+  }
+
+  // Dibujar puntos y vidas
+  textSize(32);
+  fill(255);
+  text(`Score: ${score}   Lives: ${lives}`, 20, 40);
+
+  // Mostrar mensaje de Game Over si corresponde
+  if (gameOver) {
+    textAlign(CENTER);
+    textSize(64);
+    fill(255, 0, 0);
+    text('GAME OVER', width / 2, height / 2);
+  }
 }
 
 function keyPressed(){
@@ -66,6 +124,14 @@ function keyPressed(){
     if(key === 'a' || keyCode === LEFT_ARROW) { // si se presiona la tecla a o la flecha izquierda
         rapidash.moveLeft(); // mover a la izquierda
     }
+    if (gameOver && key === "r") {
+        score = 0;
+        lives = 3;
+        enemies = [];
+        bird = new Bird(random(width), random(height), birdImg);
+        loop();
+        gameOver = false;
+      }
 }
 
 function keyReleased(){
@@ -74,16 +140,3 @@ function keyReleased(){
     }
 }
 
-function checkCollision(rapidash, enemy) {
-    if (collideRectRect(rapidash.x, rapidash.y, rapidash.width, rapidash.height, 
-        enemy.x, enemy.y, enemy.width, enemy.height)) {
-            
-            noLoop();
-            textSize(32);
-            fill(255);
-            text("Game Over", width/2, height/2);
-          } else if (rapidash.x > enemy.x + enemy.width) {
-            // Dinosaurio supera el enemigo
-            score += 10;
-          }
-  }
