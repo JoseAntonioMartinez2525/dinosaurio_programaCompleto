@@ -56,7 +56,7 @@ class Rapidash{
         }
 
 }
-    /*/// Agregar método isCollidingWith
+ //Agregar método isCollidingWith
         isCollidingWith(other) {
         const x1 = this.x;
         const y1 = this.y;
@@ -79,43 +79,43 @@ class Rapidash{
         }
     }
 
-*/
 
-collision(exeggutor){
-    return this.circleCollision(exeggutor);
+
+collision(other){
+    return this.circleCollision(other);
 }
 
-rectCollision(exeggutor){
+rectCollision(other){
     let left = this.x;
     let right = this.x + this.s;
     let top = this.y;
     let bottom = this.y + this.s;
 
-    let eLeft = exeggutor.x;
-    let eRight = exeggutor.x + exeggutor.s;
-    let eTop = exeggutor.y;
-    let eBottom = exeggutor.y + exeggutor.s;
+    let eLeft = other.x;
+    let eRight = other.x + other.s;
+    let eTop = other.y;
+    let eBottom = other.y + other.s;
 
     return !(left >= eRight || right <= eLeft || top >= eBottom || bottom <= eTop);
 
 }
 
-circleCollision(exeggutor){
+circleCollision(other){
   
     let x1 = this.x + this.s * 0.5;
     let y1 = this.y + this.s * 0.5;
 
-    let x2 = exeggutor.x + exeggutor.s * 0.5;
-    let y2 = exeggutor.y + exeggutor.s * 0.5;
+    let x2 = other.x + other.s * 0.5;
+    let y2 = other.y + other.s * 0.5;
 
-    return this.distance(x1, y1, x2, y2) <= (this.s * 0.5 + exeggutor.s * 0.5);
+    return(this.s * 0.5 + other.s * 0.5) >= this.distance(x1,y1,x2,y2);
 
 
 }
 
 distance(x1,y1,x2,y2){
-    const dx = abs(x2-x1);
-    const dy = abs(y2-y1);
+    const dx = abs(this.x2 - this.x1);
+    const dy = abs(this.y2 - this.y1);
 
     return sqrt(pow(dx,2)+ pow(dy,2));
 }
