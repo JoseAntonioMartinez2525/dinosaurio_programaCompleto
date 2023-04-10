@@ -81,13 +81,13 @@ class Rapidash{
 
 */
 
-colllision(exeggutor){
+collision(exeggutor){
     return this.circleCollision(exeggutor);
 }
 
 rectCollision(exeggutor){
     let left = this.x;
-    let right = this.x+ this.s;
+    let right = this.x + this.s;
     let top = this.y;
     let bottom = this.y + this.s;
 
@@ -101,12 +101,12 @@ rectCollision(exeggutor){
 }
 
 circleCollision(exeggutor){
-    let c = exeggutor.s * 0.5;
+  
     let x1 = this.x + this.s * 0.5;
     let y1 = this.y + this.s * 0.5;
 
-    let x2 = exeggutor.x + c;
-    let y2 = exeggutor.y + c;
+    let x2 = exeggutor.x + exeggutor.s * 0.5;
+    let y2 = exeggutor.y + exeggutor.s * 0.5;
 
     return(this.s * 0.5 + c) >= this.distance(x1,y1,x2,y2);
 
