@@ -10,6 +10,9 @@ class Rapidash{
         this.vx = 0;
         this.gravity = 2;
         this.jumping = false; // añadimos un atributo jumping para controlar el salto
+
+        this.width = img.width;
+        this.height = img.height;
     }
 
     draw(){
@@ -53,18 +56,68 @@ class Rapidash{
         }
 
 }
-       //Colision
-       collision(any) {
-        // Comprobamos si colisiona con algo
+    /*/// Agregar método isCollidingWith
+        isCollidingWith(other) {
+        const x1 = this.x;
+        const y1 = this.y;
+        const w1 = this.width;
+        const h1 = this.height;
+        const x2 = other.x;
+        const y2 = other.y;
+        const w2 = other.width;
+        const h2 = other.height;
+
         if (
-          this.x + this.s * 2 >= any.x &&
-          this.x <= any.x + any.width &&
-          this.y + this.s * 2 >= any.y
+        x1 + w1 >= x2 &&
+        x1 <= x2 + w2 &&
+        y1 + h1 >= y2 &&
+        y1 <= y2 + h2
         ) {
-          
-          return console.log("Has chocado");
+        return true;
         } else {
-          return false;
+        return false;
         }
-      }
+    }
+
+*/
+
+colllision(exeggutor){
+    return this.circleCollision(exeggutor);
+}
+
+rectCollision(exeggutor){
+    let left = this.x;
+    let right = this.x+ this.s;
+    let top = this.y;
+    let bottom = this.y + this.s;
+
+    let eLeft = exeggutor.x;
+    let eRight = exeggutor.x + exeggutor.s;
+    let eTop = exeggutor.y;
+    let eBottom = exeggutor.y + exeggutor.s;
+
+    return left >= eRight && right <= eLeft && top <= eBottom && bottom <= eTop;
+
+}
+
+circleCollision(exeggutor){
+    let c = exeggutor.s * 0.5;
+    let x1 = this.x + this.s * 0.5;
+    let y1 = this.y + this.s * 0.5;
+
+    let x2 = exeggutor.x + c;
+    let y2 = exeggutor.y + c;
+
+    return(this.s * 0.5 + c) >= this.distance(x1,y1,x2,y2);
+
+
+}
+
+distance(x1,y1,x2,y2){
+    const dx = abs(x2-x1);
+    const dy = abs(y2-y1);
+
+    return sqrt(pow(dx,2)+ pow(dy,2));
+}
+
 }
