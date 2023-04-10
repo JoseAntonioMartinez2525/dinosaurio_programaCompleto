@@ -77,7 +77,7 @@ for (let i = 0; i < enemies.length; i++) {
       score -= 10;
       enemies.splice(i, 1);
       // Restar una vida al jugador en caso de quedarse sin puntos
-      if (score == 0) {
+      if (score <= 0) {
         lives--;
         // Reiniciar el puntaje a 0
         score = 0;
@@ -141,4 +141,40 @@ function keyReleased(){
         rapidash.vx = 0; // reiniciar la velocidad en x al soltar las teclas
     }
 }
+
+class Game {
+  constructor() {
+    // ...
+    this.score = 0; // Variable para llevar la cuenta de los puntos
+  }
+  
+  // En el método update de la clase Game
+  update() {
+    // ...
+    
+    // Verificar colisiones
+    if (this.rapidash.collides(this.exeggutor)) {
+      this.score -= 1; // Disminuir puntos si colisiona con Exeggutor
+      this.exeggutor.reset(); // Reiniciar posición de Exeggutor
+    }
+    if (this.rapidash.collides(this.bird)) {
+      this.score -= 1; // Disminuir puntos si colisiona con Bird
+      this.bird.reset(); // Reiniciar posición de Bird
+    }
+    if (this.rapidash.jumps() && !this.rapidash.collides(this.exeggutor) && !this.rapidash.collides(this.bird)) {
+      this.score += 1; // Aumentar puntos si salta sin colisionar con Exeggutor ni Bird
+    }
+    
+    // Eliminar enemigos que colisionan con Rapidash o que están fuera de la pantalla
+    if (this.exeggutor.collides(this.rapidash) || this.exeggutor.isOffScreen()) {
+      this.exeggutor.reset(); // Reiniciar posición de Exeggutor
+    }
+    if (this.bird.collides(this.rapidash) || this.bird.isOffScreen()) {
+      this.bird.reset(); // Reiniciar posición de Bird
+    }
+    
+    // ...
+  }
+}
+
 
