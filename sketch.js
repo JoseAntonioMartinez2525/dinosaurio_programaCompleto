@@ -53,7 +53,6 @@ for (let i = 0; i < 3; i++) {
 }
 
 function draw(){
-    background("white");
     bg1.draw();
     bg2.draw();
     rapidash.draw();
@@ -78,7 +77,7 @@ for (let i = 0; i < enemies.length; i++) {
       score -= 10;
       enemies.splice(i, 1);
       // Restar una vida al jugador en caso de quedarse sin puntos
-      if (score < 0) {
+      if (score == 0) {
         lives--;
         // Reiniciar el puntaje a 0
         score = 0;
@@ -90,6 +89,7 @@ for (let i = 0; i < enemies.length; i++) {
       // Salir del ciclo for, ya que solo se permite una colisión por frame
       break;
     }
+    
   }
 
 
