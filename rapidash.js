@@ -96,7 +96,7 @@ rectCollision(exeggutor){
     let eTop = exeggutor.y;
     let eBottom = exeggutor.y + exeggutor.s;
 
-    return left >= eRight && right <= eLeft && top <= eBottom && bottom <= eTop;
+    return !(left >= eRight || right <= eLeft || top >= eBottom || bottom <= eTop);
 
 }
 
@@ -108,7 +108,7 @@ circleCollision(exeggutor){
     let x2 = exeggutor.x + exeggutor.s * 0.5;
     let y2 = exeggutor.y + exeggutor.s * 0.5;
 
-    return(this.s * 0.5 + c) >= this.distance(x1,y1,x2,y2);
+    return this.distance(x1, y1, x2, y2) <= (this.s * 0.5 + exeggutor.s * 0.5);
 
 
 }
