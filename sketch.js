@@ -9,6 +9,8 @@ let eggImg;
 let exeggutor;
 let birdImg;
 let bird;
+let score = 0;
+
 const SPACE_KEY = 32;
 
 function preload(){
@@ -42,6 +44,14 @@ function draw(){
     rapidash.update();
     exeggutor.update();
     bird.update();
+
+    checkCollision(rapidash, bird); // Verificar colisión con ave
+    checkCollision(rapidash, exeggutor); // Verificar colisión con planta
+
+    textSize(32);
+    fill(255);
+    text("Score: " + score, 10, 30);
+    
 }
 
 function keyPressed(){
@@ -63,3 +73,17 @@ function keyReleased(){
         rapidash.vx = 0; // reiniciar la velocidad en x al soltar las teclas
     }
 }
+
+function checkCollision(rapidash, enemy) {
+    if (collideRectRect(rapidash.x, rapidash.y, rapidash.width, rapidash.height, 
+        enemy.x, enemy.y, enemy.width, enemy.height)) {
+            
+            noLoop();
+            textSize(32);
+            fill(255);
+            text("Game Over", width/2, height/2);
+          } else if (rapidash.x > enemy.x + enemy.width) {
+            // Dinosaurio supera el enemigo
+            score += 10;
+          }
+  }
