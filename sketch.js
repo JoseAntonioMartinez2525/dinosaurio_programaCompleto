@@ -66,6 +66,10 @@ function draw(){
     exeggutor.update();
     bird.update();
 
+      // Dibujar puntos y vidas
+  textSize(32);
+  fill(255);
+  text(`Score: ${score}   Lives: ${lives}`, 20, 40);
 
 // Verificar colisión con enemigos
 for (let i = 0; i < enemies.length; i++) {
@@ -88,6 +92,7 @@ for (let i = 0; i < enemies.length; i++) {
     }
   }
 
+
   // Generar nuevos enemigos de forma aleatoria
   if (frameCount % 60 === 0) {
     const enemyType = random(['bird', 'exeggutor']);
@@ -98,10 +103,7 @@ for (let i = 0; i < enemies.length; i++) {
     }
   }
 
-  // Dibujar puntos y vidas
-  textSize(32);
-  fill(255);
-  text(`Score: ${score}   Lives: ${lives}`, 20, 40);
+
 
   // Mostrar mensaje de Game Over si corresponde
   if (gameOver) {
