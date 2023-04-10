@@ -8,8 +8,15 @@ class Bird {
     this.currentWingIndex = 0;
     this.lastWingFlapTime = 0;
     this.wingFlapInterval = 200; // milisegundos
+
+    this.width = img.width;
+    this.height = img.height;
   }
 
+  show() {
+    image(this.img, this.x, this.y);
+  }
+  
   draw() {
     // Cambiar la imagen de aleteo de alas cada cierto tiempo
     if (millis() - this.lastWingFlapTime > this.wingFlapInterval) {
